@@ -36,29 +36,29 @@ Get an [API key](https://platform.deepseek.com/api_keys) from the DeepSeek Platf
 5. Paste your **API Key**.
 6. Click **Add model** and add:
    - `deepseek-v4-pro` — strongest reasoning, text-only, 1M context.
-   - `deepseek-v4-flash` — faster and lower-cost, vision-capable, 1M context.
+   - `deepseek-flash` — faster and lower-cost, vision-capable, 1M context.
 7. Click **Save**. The first provider and its first model become the default; drag the handles to reorder providers or models.
 
-> **About the Test button:** Astorm's **Test** button sends a text + image prompt to verify both instruction following and image recognition. `deepseek-v4-pro` is text-only, so the test can report that vision is unsupported even though text chat works. Use `deepseek-v4-flash` if you want the test to pass, or skip the test for Pro.
+> **About the Test button:** Astorm's **Test** button sends a text + image prompt to verify both instruction following and image recognition. `deepseek-v4-pro` is text-only, so the test can report that vision is unsupported even though text chat works. Use `deepseek-flash` if you want the test to pass, or skip the test for Pro.
 
-> **Model naming:** DeepSeek's latest pricing page lists the Flash model as `deepseek-flash`; `deepseek-v4-flash` remains accepted as a legacy alias and is the name used by the other guides in this list. Use `deepseek-flash` instead if your account or gateway requires the new name.
+> **Model naming:** DeepSeek's current pricing page lists the Flash model as `deepseek-flash`. The older `deepseek-v4-flash` name is still accepted as a legacy alias; use `deepseek-flash` for new configurations.
 
 #### 3. Start Chatting
 
 1. Create a new chat and choose a workspace folder.
 2. At the bottom of the chat input, click the model chip (it shows the current model and reasoning effort).
-3. Choose **DeepSeek → `deepseek-v4-pro`** (or `deepseek-v4-flash`).
-4. Choose **Reasoning effort → High**.
+3. Choose **DeepSeek → `deepseek-v4-pro`** (or `deepseek-flash`).
+4. Choose **Reasoning effort → Max** (Astorm 0.1.1+; older versions cap at High).
 5. Send a prompt. Astorm streams the answer, shows the reasoning steps, and asks for approval before sensitive file, shell, or network operations.
 
 DeepSeek V4 supports a **1 million token** context window, so long documents and multi-file tasks can be handled without a separate context-window setting. Astorm's conversation summarization and compaction thresholds can be adjusted under **Settings → Session** if you want to tune long-running chats.
 
 #### 4. Reasoning Effort and Model Choice
 
-Astorm exposes four reasoning levels: **None**, **Low**, **Medium**, and **High**. It sends the selected level as DeepSeek's `reasoning_effort` field. **High** is the highest level currently available in Astorm; DeepSeek V4 Pro also supports a `max` level, but Astorm does not expose it yet.
+Astorm exposes five reasoning levels: **None**, **Low**, **Medium**, **High**, and **Max**. It sends the selected level as DeepSeek's `reasoning_effort` field. **Max** maps to `reasoning_effort: "max"` and is available in Astorm **0.1.1 or later**; on older versions, the highest level is High.
 
-- Use **`deepseek-v4-pro` + High** for coding, planning, and complex tool use.
-- Use **`deepseek-v4-flash`** for faster or lower-cost chats that need vision.
+- Use **`deepseek-v4-pro` + Max** for coding, planning, and complex tool use.
+- Use **`deepseek-flash`** for faster or lower-cost chats that need vision.
 
 Pricing changes frequently, so this guide does not embed a price table. See the official [DeepSeek pricing page](https://api-docs.deepseek.com/quick_start/pricing).
 
@@ -67,9 +67,9 @@ Pricing changes frequently, so this guide does not embed a price table. See the 
 | Symptom | Fix |
 | --- | --- |
 | `401 Unauthorized` | Check the API key and make sure it belongs to the selected provider. |
-| `404` or `Model Not Found` | Use exactly `deepseek-v4-pro` or `deepseek-v4-flash`; the Base URL must be `https://api.deepseek.com` without `/chat/completions`. |
-| The **Test** button reports unsupported vision | `deepseek-v4-pro` is text-only. Text chat still works; use `deepseek-v4-flash` for image tasks or skip the test. |
-| `reasoning_effort` is rejected | Use **None**, **Low**, **Medium**, or **High** in Astorm. The `max` level is not exposed by the app. |
+| `404` or `Model Not Found` | Use exactly `deepseek-v4-pro` or `deepseek-flash`; the Base URL must be `https://api.deepseek.com` without `/chat/completions`. |
+| The **Test** button reports unsupported vision | `deepseek-v4-pro` is text-only. Text chat still works; use `deepseek-flash` for image tasks or skip the test. |
+| `reasoning_effort` is rejected | Use **None**, **Low**, **Medium**, **High**, or **Max**. Max requires Astorm 0.1.1 or later; older versions cap at High. |
 | macOS says the app is damaged | Verify the notarized build with `spctl -a -vvv --type execute "/Applications/Astorm Agent.app"` and download it from the official releases page. |
 
 #### 6. Going Further
